@@ -1,4 +1,4 @@
-output "raddit_api_ip" {
+output "api_ip" {
   value = "${google_compute_global_address.api_static_ip.address}"
 }
 
