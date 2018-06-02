@@ -1,26 +1,29 @@
+# Kubernetes cluster on Google Cloud Platform
+
 ## Table of Contents
 * [About the repo](#about-the-repo)
 * [Quick start](#quick-start)
 * [Repository structure](#repository-structure)
    * [terraform-modules](#terraform-modules)
-   * [my-cluster](#my-cluster)
+   * [k8s-cluster](#k8s-cluster)
    * [accounts](#accounts)
 * [CI/CD example with Gitlab CI and Helm](#cicd-example-with-gitlab-ci-and-helm)
 
 ## About the repo
 This repository contains an example of deploying and managing [Kubernetes](https://kubernetes.io/) clusters to [Google Cloud Platform](https://cloud.google.com/) (GCP) in a reliable and repeatable way.
 
-[Terraform](https://www.terraform.io/) is used to describe the desired state of the infrastructure, thus implementing Infrastructure as Code (IaC) approach.
+[Terraform](https://www.terraform.io/) is used to describe the desired state of the infrastructure, thus implementing Infrastructure as Code (IaaC) approach.
 
-[Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) (GKE) service is used for cluster deployment. Since Google announced that [they had eliminated the cluster management fees for GKE](https://cloudplatform.googleblog.com/2017/11/Cutting-Cluster-Management-Fees-on-Google-Kubernetes-Engine.html), it became the safest and cheapest way to run a Kubernetes cluster on GCP, because you only pay for the nodes (compute instances) running in your cluster and Google abstracts away and takes care of the master control plane.  
+[Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) (GKE) service is used for cluster deployment. Since Google announced that [they had eliminated the cluster management fees for GKE](https://cloudplatform.googleblog.com/2017/11/Cutting-Cluster-Management-Fees-on-Google-Kubernetes-Engine.html),
+it became the safest and cheapest way to run a Kubernetes cluster on GCP, because you only pay for the nodes (compute instances) running in your cluster and Google abstracts away and takes care of the master control plane.  
 
 
 ## Quick start
 **Prerequisite:** make sure you're authenticated to GCP via [gcloud](https://cloud.google.com/sdk/gcloud/) command line tool using either _default application credentials_ or _service account_ with proper access.
 
-Check **terraform.tfvars.example** file inside `my-cluster` folder to see what variables you need to define before you can use terraform to create a cluster.
+Check **terraform.tfvars.example** file inside `k8s-cluster` folder to see what variables you need to define before you can use terraform to create a cluster.
 
-You can run the following command in `my-cluster` to make your variables definitions available to terraform:
+You can run the following command in `k8s-cluster` to make your variables definitions available to terraform:
 ```bash
 $ mv terraform.tfvars.example terraform.tfvars # variables defined in terraform.tfvars will be automatically picked up by terraform during the run
 ```
@@ -34,7 +37,7 @@ $ terraform apply
 After the cluster is created, run a command from terraform output to configure access to the cluster via `kubectl` command line tool. The command from terraform output will be in the form of:
 
 ```bash
-$ gcloud container clusters get-credentials my-cluster --zone europe-west1-b --project example-123456
+$ gcloud container clusters get-credentials k8s-cluster --zone europe-west1-b --project example-123456
 ```
 
 
@@ -42,7 +45,7 @@ $ gcloud container clusters get-credentials my-cluster --zone europe-west1-b --p
 ```bash
 ├── accounts
 │   └── service-accounts
-├── my-cluster
+├── k8s-cluster
 │   ├── deploy-app-example
 │   └── k8s-config
 │       ├── charts
@@ -77,8 +80,8 @@ The folder contains 4 modules at the moment of writing:
 * `node-pool` module is used to create [Node Pools](https://cloud.google.com/kubernetes-engine/docs/concepts/node-pools) which is mechanism to add extra nodes of required configuration to a running Kubernetes cluster. Note that nodes which configuration is specified in the `cluster` module become the _default_ node pool.  
 * `vpc` module is used to create new Virtual Private Cloud (VPC) networks.
 
-### my-cluster
-Inside the **my-cluster** folder, I put terraform configuration for the creation and management of an example of Kubernetes cluster.
+### k8s-cluster
+Inside the **k8s-cluster** folder, I put terraform configuration for the creation and management of an example of Kubernetes cluster.
 Important files here:
 
 * `main.tf` is the place where we define main configuration such as creation of a network for our cluster, creation of the cluster itself and node pools.
