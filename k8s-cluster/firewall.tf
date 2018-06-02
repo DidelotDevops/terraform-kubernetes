@@ -5,7 +5,7 @@ module "fw_ssh" {
   source      = "../terraform-modules/firewall/ingress-allow"
   name        = "allow-ssh"
   description = "Allow SSH for everyone"
-  network     = "${module.my_network.name}"
+  network     = "${module.k8s_network.name}"
   protocol    = "tcp"
   ports       = ["22"]
 }

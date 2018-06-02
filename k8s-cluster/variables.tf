@@ -32,3 +32,7 @@ variable "initial_node_count" {
   description = "Number of nodes in the cluster"
   default     = 2
 }
+
+variable "dns_domain" {
+  description = "DNS zone for the api domain"
+}
