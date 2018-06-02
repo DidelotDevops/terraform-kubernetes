@@ -24,6 +24,6 @@ module "fw_https" {
   name        = "allow-https"
   description = "Allow HTTPS for everyone"
   network     = "${module.k8s_network.name}"
-  protocol    = "http"
+  protocol    = "tcp"
   ports       = ["443"]
 }
