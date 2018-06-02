@@ -8,4 +8,4 @@ initial_node_count = 2 # number of nodes in the cluster
 
 ntw_name = "k8s-cluster-network" # VPC network name which will be created
 
-dns_domain = "didelotkev.ovh"
+dns_domain = "k8s.didelotkev.ovh"
